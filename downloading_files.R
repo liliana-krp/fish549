@@ -98,3 +98,61 @@ cc_data <- read_excel("data/climate_change_download_0.xls",
                       col_names = as.character(c(1990:1995)),
                       na        = "..")
 head(cc_data)
+
+
+
+#---- Reading google sheet files ----
+
+## load the packge
+library(googlesheets4)
+
+## authorize for reading public-only sheets
+gs4_deauth()
+
+## specify URL
+gs_url <- "https://docs.google.com/spreadsheets/d/1ct3MMMzEX82BeqJcUw3uYD5b4CJrKUmRYCK-wVA3yig/edit#gid=0"
+
+## read from URL
+read_sheet(gs_url)
+
+## assign it to an object
+gs_raw <- read_sheet(gs_url)
+
+## specify ID
+gs_id <- as_sheets_id(gs_url)
+
+## read from ID
+read_sheet(gs_id)
+
+## assign it to an object
+gs_raw <- read_sheet(gs_id)
+
+## browse sheet contents
+gs4_get(gs_id)
+
+## read in a subset of cells
+read_sheet(gs_id, range = "A1:B10")
+
+
+#---- Reading JSON / Github API files ----
+
+## load the pckage
+library(jsonlite)
+
+## set the URL
+github_url = "https://api.github.com/users/mdscheuerell/repos"
+
+## get the JSON data
+data_json <- fromJSON(github_url)
+
+## all of the JSON names
+names(data_json)
+
+## table of the number of forks
+table(data_json$forks)
+
+## table number of the different languages
+table(data_json$language)
+
+## how many repos have open issues?
+table(data_json$open_issues_count)
